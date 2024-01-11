@@ -1,0 +1,21 @@
+---
+# tasks file for sausage-store-backend
+
+# Install necessary software
+- include_tasks: install_soft.yml
+
+# Create backend service user
+- include_tasks: add_backend_user.yml
+
+# Create necessary folders
+- include_tasks: create_dirs.yml
+  
+# Add google DNS
+- include_tasks: google_dns.yml
+
+# Download nexus artefacts
+- include_tasks: get_artefact.yml
+
+# Create and run backend system service
+- include_tasks: system_service.yml
+    

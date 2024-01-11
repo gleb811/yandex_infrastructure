@@ -1,0 +1,18 @@
+[Unit]
+Description=Run java with backend
+After=network.target
+
+[Service]
+User={{ backend_user }}
+Group={{ backend_group }}
+Type=exec
+Environment=REPORT_PATH={{ backend_report_path }}
+Environment=LOG_PATH={{ backend_log_path }}
+WorkingDirectory={{ backend_work_dir }}
+ExecStart=/usr/bin/java -jar sausage-store-backend.{{ backend_nexus_artifact_extension }}
+# optional items below
+Restart=always
+#RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

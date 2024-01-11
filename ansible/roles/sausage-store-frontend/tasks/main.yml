@@ -1,0 +1,18 @@
+---
+# tasks file for sausage-store-frontend
+
+# Install necessary software
+- include_tasks: install_soft.yml
+
+# Create frontend service user
+- include_tasks: add_frontend_user.yml
+
+# Create necessary folders
+- include_tasks: create_dirs.yml
+
+# Download nexus artefacts
+- include_tasks: get_artefact.yml
+
+# Create and run frontend system service
+- include_tasks: system_service.yml
+

@@ -1,0 +1,10 @@
+all: # Все серверы в нашем inventory, all - обязателен
+  children: # Дочерние группы для all
+    backend: # Группа хостов с именем backend
+      hosts:
+        51.250.80.5:
+          ansible_user: ansible
+    frontend:
+      hosts:
+        51.250.80.5: 
+          ansible_user: ansible     

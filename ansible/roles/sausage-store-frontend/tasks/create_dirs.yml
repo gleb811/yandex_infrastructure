@@ -1,0 +1,8 @@
+- name: Create {{ frontend_work_dir }} folder
+  ansible.builtin.file:
+    path: "{{ frontend_work_dir }}"
+    state: directory
+    owner: "{{ frontend_user }}"
+    group: "{{ frontend_group }}"
+    mode: '0755'
+    

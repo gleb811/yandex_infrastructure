@@ -1,0 +1,5 @@
+---
+# defaults file for sausage-store-frontend
+frontend_user: www-data
+frontend_group: www-data
+frontend_work_dir: /var/www-data

@@ -1,0 +1,5 @@
+- name: Add {{ backend_user }} service user
+  user:
+    name: "{{ backend_user }}"
+    create_home: no
+    shell: /sbin/nologin

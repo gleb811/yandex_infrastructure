@@ -1,0 +1,13 @@
+- name: A play for "sausage store" backend
+  # backend hosts
+  hosts: backend
+  # Ansible roles for backend services
+  roles:
+    - sausage-store-backend
+    
+- name:  A play for "sausage store" frontend
+  # frontend hosts
+  hosts: frontend
+  # Ansible roles for frontend services
+  roles:
+    - sausage-store-frontend

@@ -1,0 +1,6 @@
+---
+# vars file for sausage-store-frontend
+frontend_nexus_repo_url: https://nexus.praktikum-services.tech/repository/sausage-store-gleb-fedotov-frontend
+frontend_nexus_artifact_version: 1.0.988899
+frontend_nexus_artifact_extension: tar.gz
+frontend_nexus_username: std-024-07

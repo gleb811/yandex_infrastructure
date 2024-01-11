@@ -1,0 +1,11 @@
+- name: Add google DNS
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/resolved.conf
+    regexp: '#DNS='
+    line: DNS=8.8.8.8
+    
+- name: restart systemd-resolved
+  become: true
+  service:
+    name: systemd-resolved
+    state: restarted
