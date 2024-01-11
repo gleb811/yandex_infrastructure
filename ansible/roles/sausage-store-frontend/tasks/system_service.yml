@@ -1,0 +1,18 @@
+- name: Create frontend system service file
+  template:
+    src: sausage-store-frontend.j2
+    dest: /etc/systemd/system/sausage-store-frontend.service
+    owner: "{{ frontend_user }}"
+    group: "{{ frontend_group }}"    
+
+- name: Reload systemd configuration
+  systemd:
+    daemon_reload: yes
+    
+
+- name: Run frontend system service!
+  service:
+    name: sausage-store-frontend
+    enabled: true
+    state: started
+    

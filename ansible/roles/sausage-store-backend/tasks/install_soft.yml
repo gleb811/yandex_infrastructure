@@ -1,0 +1,12 @@
+- name : Install the python3 pip package
+  apt: name=python3-pip state=latest update_cache=true
+
+    
+- name: Install lxml python package
+  ansible.builtin.pip:
+    name: lxml 
+    
+- name : Install the openjdk-16-jdk package
+  apt: name=openjdk-16-jdk state=latest update_cache=true
+
+

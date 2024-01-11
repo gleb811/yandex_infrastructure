@@ -1,0 +1,31 @@
+- name: Download backend artefacts from NEXUS
+  maven_artifact:
+    dest: "{{ backend_work_dir }}"
+    repository_url: "{{ backend_nexus_repo_url }}"
+    group_id: "{{ backend_nexus_group_id }}"
+    artifact_id: "{{ backend_nexus_artifact_id }}"
+    version: "{{ backend_nexus_artifact_version }}"
+    extension: "{{ backend_nexus_artifact_extension }}"
+    username: "{{ backend_nexus_username }}"
+    password: "{{ vault_backend_nexus_pass }}"
+    keep_name: true 
+    owner: "{{ backend_user }}"
+    group: "{{ backend_group }}"
+
+
+- name: Create a symbolic link to the version {{ backend_nexus_artifact_version }}
+  ansible.builtin.file:
+    src: "{{ backend_work_dir }}/{{ backend_nexus_artifact_id }}-{{ backend_nexus_artifact_version }}.{{ backend_nexus_artifact_extension }}"
+    dest: "{{ backend_work_dir }}/{{ backend_nexus_artifact_id }}-backend.{{ backend_nexus_artifact_extension }}"
+    owner: "{{ backend_user }}"
+    group: "{{ backend_group }}"
+    state: link
+    
+- name: Recursively change ownership of {{ backend_work_dir }} to {{ backend_user }} user
+  ansible.builtin.file:
+    path: "{{ backend_work_dir }}"
+    state: directory
+    recurse: yes
+    owner: "{{ backend_user }}"
+    group: "{{ backend_group }}"
+    

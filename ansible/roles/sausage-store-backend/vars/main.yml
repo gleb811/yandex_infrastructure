@@ -1,0 +1,8 @@
+---
+# vars file for sausage-store-backend
+backend_nexus_repo_url: https://nexus.praktikum-services.tech/repository/sausage-store-gleb-fedotov-backend
+backend_nexus_group_id: com.yandex.practicum.devops
+backend_nexus_artifact_id: sausage-store
+backend_nexus_artifact_version: 1.0.988900
+backend_nexus_artifact_extension: jar
+backend_nexus_username: std-024-07

@@ -1,0 +1,23 @@
+- name: Create {{ backend_work_dir }} folder
+  ansible.builtin.file:
+    path: "{{ backend_work_dir }}"
+    state: directory
+    owner: "{{ backend_user }}"
+    group: "{{ backend_group }}"
+    mode: '0755'
+    
+- name: Create {{ backend_report_path }} folder
+  ansible.builtin.file:
+    path: "{{ backend_report_path }}"
+    state: directory
+    owner: "{{ backend_user }}"
+    group: "{{ backend_group }}"
+    mode: '0755'
+    
+- name: Create {{ backend_log_path }} folder
+  ansible.builtin.file:
+    path: "{{ backend_log_path }}"
+    state: directory
+    owner: "{{ backend_user }}"
+    group: "{{ backend_group }}"
+    mode: '0755'  

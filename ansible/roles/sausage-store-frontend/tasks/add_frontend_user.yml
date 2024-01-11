@@ -1,0 +1,5 @@
+- name: Add {{ frontend_user }} service user
+  user:
+    name: "{{ frontend_user }}"
+    create_home: no
+    shell: /sbin/nologin

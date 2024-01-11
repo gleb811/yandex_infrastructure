@@ -1,0 +1,23 @@
+- name: Download frontend artifacts from repository
+  ansible.builtin.get_url:
+    url: "{{ frontend_nexus_repo_url }}/{{ frontend_nexus_artifact_version }}/sausage-store-{{ frontend_nexus_artifact_version }}.{{ frontend_nexus_artifact_extension }}"
+    dest: "{{ frontend_work_dir }}"
+    username: "{{ frontend_nexus_username }}"
+    password: "{{ vault_frontend_nexus_pass }}"
+    owner: "{{ frontend_user }}"
+    group: "{{ frontend_group }}"
+    
+    
+- name: Unarchive frontend artifacts
+  ansible.builtin.unarchive:
+    src: "{{ frontend_work_dir }}/sausage-store-{{ frontend_nexus_artifact_version }}.{{ frontend_nexus_artifact_extension }}"
+    dest: "{{ frontend_work_dir }}"
+    owner: "{{ frontend_user }}"
+    group: "{{ frontend_group }}"
+    remote_src: yes
+    
+- name: Remove artefacts archive files
+  ansible.builtin.file:
+    path: "{{ frontend_work_dir }}/sausage-store-{{ frontend_nexus_artifact_version }}.{{ frontend_nexus_artifact_extension }}"
+    state: absent
+
