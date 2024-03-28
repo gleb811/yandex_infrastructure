@@ -7,11 +7,10 @@ stages:
 deploy-k8s:
   stage: deploy
   image:
-    name: lwolf/helm-kubectl-docker:latest
+    name: rancher/kubectl:latest
     entrypoint: ['']
   script:
     - export KUBECONFIG=$KUBECONFIG_FILE
     - helm repo add --username $NEXUS_USER --password $NEXUS_PASS nexus https://nexus.praktikum-services.tech/repository/sausage-store-helm-gleb-fedotov-24
     - helm repo update 
-    - git
     - helm install sausage-store nexus/sausage-store
