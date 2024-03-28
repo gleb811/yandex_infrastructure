@@ -7,13 +7,10 @@ stages:
 deploy-k8s:
   stage: deploy
   image:
-    name: portainer/kubectl-shell
+    name: dtzar/helm-kubectl:latest
     entrypoint: ['']
   script:
     - export KUBECONFIG=$KUBECONFIG_FILE
-    - helm repo add cowboysysop https://cowboysysop.github.io/charts/
-    - helm repo update 
-    - helm install vertical-pod-autoscaler cowboysysop/vertical-pod-autoscaler
     - helm repo add --username $NEXUS_USER --password $NEXUS_PASS nexus https://nexus.praktikum-services.tech/repository/sausage-store-helm-gleb-fedotov-24
     - helm repo update 
     - helm install sausage-store nexus/sausage-store
