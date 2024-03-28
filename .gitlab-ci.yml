@@ -7,7 +7,7 @@ stages:
 deploy-k8s:
   stage: deploy
   image:
-    name: bitnami/fluxcd-helm-controller:latest
+    name: dtzar/helm-kubectl:latest
     entrypoint: ['']
   script:
     - export KUBECONFIG=$KUBECONFIG_FILE
