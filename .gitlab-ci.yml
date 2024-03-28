@@ -11,8 +11,6 @@ deploy-k8s:
     entrypoint: ['']
   script:
     - export KUBECONFIG=$KUBECONFIG_FILE
-    - kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/vpa-release-1.0/vertical-pod-autoscaler/deploy/vpa-v1-crd-gen.yaml
-    - kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/vpa-release-1.0/vertical-pod-autoscaler/deploy/vpa-rbac.yaml
     - helm repo add --username $NEXUS_USER --password $NEXUS_PASS nexus https://nexus.praktikum-services.tech/repository/sausage-store-helm-gleb-fedotov-24
     - helm repo update 
     - helm install sausage-store nexus/sausage-store
