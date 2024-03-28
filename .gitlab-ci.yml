@@ -12,4 +12,4 @@ deploy-k8s:
   script:
     - export KUBECONFIG=$KUBECONFIG_FILE
     - helm repo add --username $NEXUS_USER --password $NEXUS_PASS nexus https://nexus.praktikum-services.tech/repository/sausage-store-helm-gleb-fedotov-24
-
+    - helm repo update 
