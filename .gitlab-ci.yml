@@ -7,7 +7,7 @@ stages:
 deploy-k8s:
   stage: deploy
   image:
-    name: rancher/kubectl:latest
+    name: rancher/kubectl:v1.26.15
     entrypoint: ['']
   script:
     - export KUBECONFIG=$KUBECONFIG_FILE
