@@ -7,7 +7,7 @@ stages:
 deploy-k8s:
   stage: deploy
   image:
-    name: dtzar/helm-kubectl:latest
+    name: lwolf/helm-kubectl-docker:latest
     entrypoint: ['']
   script:
     - export KUBECONFIG=$KUBECONFIG_FILE
