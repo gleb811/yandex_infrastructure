@@ -1,0 +1,57 @@
+backend:
+  image: gitlab.praktikum-services.ru:5050/std-024-07/sausage-store/sausage-backend:latest
+  replicaCount: 1
+  tag: latest
+  pullPolicy: IfNotPresent
+  port: 8080
+   
+  fullnameOverride: store-backend
+
+backend-report:
+  image: gitlab.praktikum-services.ru:5050/std-024-07/sausage-store/sausage-backend-report:latest
+  
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: "app"
+            operator: In
+            values:
+            - backend-report
+        topologyKey: "kubernetes.io/hostname"
+  
+  autoscaling:
+    hpa:
+      enabled: true
+  
+  fullnameOverride: store-report
+
+  
+
+frontend:
+  image: gitlab.praktikum-services.ru:5050/std-024-07/sausage-store/sausage-frontend:latest
+  replicaCount: 1
+  tag: latest
+  pullPolicy: Always
+  port: 80
+
+  fullnameOverride: store-frontend
+
+  ingress:
+    enabled: true
+    host: "fedotov-gleb-24.k8s.praktikum-services.tech"
+    
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - frontend
+    
+  backend:
+    host: store-backend
+    port: "8080"
