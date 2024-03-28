@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "backend.fullname" . }}
+  labels:
+    {{- include "backend.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 12
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 20% 
+  selector:
+    matchLabels:
+      {{- include "backend.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "backend.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - image: "{{ .Values.backend.image }}:{{ .Values.backend.tag | default .Chart.AppVersion }}"
+          name: {{ include "backend.fullname" . }}
+          imagePullPolicy: {{ .Values.backend.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: db-credentials
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://rc1d-6ltxi07qdaaunpa5.mdb.yandexcloud.net:6432/std-024-07?ssl=true
+          ports:
+            - name: backend
+              containerPort: {{ .Values.service.port }}
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+          livenessProbe:
+            # проверка живучести выполнит запрос HTTP GET       
+            httpGet:
+              # путь к запросу в HTTP-запросе          
+              path: /actuator/health
+              # порт, к которому должна подключиться проверка        
+              port: {{ .Values.service.port }}
+            # перед исполнением первой проверки подождать 15 секунд, пока стартанёт бэкенд          
+            initialDelaySeconds: 15
+            # период выполнения проверки
+            periodSeconds: 30
+            # максимальное время выполнения проверки (по умолчанию 1 раз)
+            timeoutSeconds: 2
+            # сколько раз пробовать попытку, если она провалилась (по умолчанию 1 раз)
+            failureThreshold: 6
+      # чтобы Кубер мог скачивать образы из нашего GitLab Registry  
+      imagePullSecrets:
+        - name: docker-config-secret

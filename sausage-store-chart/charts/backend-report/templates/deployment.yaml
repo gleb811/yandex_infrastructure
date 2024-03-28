@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "backend-report.fullname" . }}
+  labels:
+    {{- include "backend-report.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 12
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "backend-report.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "backend-report.labels" . | nindent 8 }}
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: "app"
+                operator: In
+                values:
+                - backend-report
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+        - image: "{{ .Values.backendreport.image }}:{{ .Values.backendreport.tag | default .Chart.AppVersion }}"
+          name: {{ include "backend-report.fullname" . }}
+          imagePullPolicy: {{ .Values.backendreport.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: db-credentials
+          env:
+            - name: VERSION
+              value: latest
+            - name: PORT
+              value: "{{ .Values.service.port }}"
+            - name: REPORT_PATH
+              value: /var/www-data/htdocs
+            - name: DB
+              value: $(REPORTS_MONGODB_URI)                 
+          ports:
+            - name: backend-report
+              containerPort: {{ .Values.service.port }} 
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets.name }}
