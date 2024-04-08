@@ -17,12 +17,12 @@ spec:
       {{- include "backend.labels" . | nindent 6 }}
   template:
     metadata:
-      labels:
-        {{- include "backend.labels" . | nindent 8 }}
       annotations:
         prometheus.io/path: /actuator/prometheus
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true" 
+      labels:
+        {{- include "backend.labels" . | nindent 8 }}
     spec:
       containers:
         - image: "{{ .Values.backend.image }}:{{ .Values.backend.tag | default .Chart.AppVersion }}"
