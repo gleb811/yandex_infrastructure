@@ -5,6 +5,10 @@ metadata:
   name: {{ include "backend.fullname" . }} 
   labels:
     {{- include "backend.labels" . | nindent 4 }} 
+  annotations:
+    prometheus.io/path: /actuator/prometheus
+    prometheus.io/port: "8080"
+    prometheus.io/scrape: "true"    
 spec:
   type: {{ .Values.service.type }}
   ports:
