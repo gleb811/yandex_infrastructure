@@ -7,7 +7,7 @@ replicaCount: 2
 
 service:
   type: ClusterIP
-  port: 8080
+  port: 5000
 
 imagePullSecrets: 
   name: docker-config-secret
