@@ -1,0 +1,39 @@
+---
+groups:
+  - name: Sausage store rules
+    rules:
+    - alert: InstanceDown
+      expr: up{kubernetes_name="backend"} == 0
+      for: 1m
+      labels:
+        severity: critical
+        project: "sausage_store"
+        component: "Backend"
+      annotations:
+        description: "Backend service out of order (Gleb Fedotov)"
+    - alert: Error500
+      expr: sum(http_server_requests_seconds_count{status="500"})
+      labels:
+        severity: critical
+        project: "sausage_store"
+        component: "backend"
+      annotations:
+        description: "500 Error (Gleb Fedotov)"
+    - alert: BigLatency
+      expr: quantile(0.95,http_server_requests_seconds_max{uri="/api/orders", method="POST"}) >=0.1
+      for: 1m
+      labels:
+        severity: warning
+        project: "sausage_store"
+        component: "backend"
+      annotations:
+        description: "Latency for orders more than 100 ms (Gleb Fedotov)"
+    - alert: Errors4xx
+      expr: http_server_requests_seconds_count{uri="/actuator/prometheus", status=~"4.."}
+      for: 2m
+      labels:
+        severity: critical
+        project: "sausage_store"
+        component: "backend"
+      annotations:
+        description: "An error appears within 2 minutes (Gleb Fedotov)"
